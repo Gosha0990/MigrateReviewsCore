@@ -19,7 +19,7 @@ namespace MigrateReviewsCore
             value.Add("Password", "dkYnjkdkjd77");
             string uri = "https://identity-sandbox.cloudtips.ru/connect/token";
             var client = new WebClient();
-            client.Headers[HttpRequestHeader.ContentType] = "";
+            client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
             var data = JsonSerializer.Serialize(value);
             var res = client.UploadString(uri, data);
                 return res;
