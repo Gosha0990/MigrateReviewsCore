@@ -60,8 +60,9 @@ namespace MigrateReviewsCore
                     
                 };
                 httpRequest.Headers.Add("AuthorizationBearer", _Token);
-                var httpResponse = client.Send(httpRequest);
+                var httpResponse = client.Send(httpRequest).RequestMessage;
                 var jsonTask = httpResponse.Content;
+                var res = jsonTask.ToString();
             }
             return "CreaterRecipient";
         }
