@@ -10,13 +10,19 @@ namespace MigrateReviewsCore
     [Serializable]
     internal class Recipient
     {
-        public string PhoneName { get; set; }
+        //обязательное
+        public string PhoneNumber { get; set; }
+        //обязательное
         public string Name { get; set; }
+        //необязательное
         public string Email { get; set; }
-        
+        //необязательное
         public string Type { get; set; }
+        //необязательное
         public string Placeid { get; set; }
+        //необязательное
         public bool SendPassword { get; set; }
+        //необязательное
         public bool VerifyPhone { get; set; }
     }
 }

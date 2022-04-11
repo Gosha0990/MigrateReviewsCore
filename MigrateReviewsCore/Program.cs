@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json;
+using System.Collections.Generic;
 
 namespace MigrateReviewsCore
 {
@@ -9,22 +9,17 @@ namespace MigrateReviewsCore
         {
             var uri1 = "https://identity-sandbox.cloudtips.ru/connect/token";
             var uri2 = "https://api-sandbox.cloudtips.ru/api/receivers";
-            Console.WriteLine("Hello World!");
-            var t = new int[] { };
             var query = new ReviewCloudTips();
+            var type = new Dictionary<int, string>();
+            type.Add(0, "Официант");
             var recipient = new Recipient()
             {
-                PhoneName = "+79998887766",
-                Name = "Persona",
-                Email = "person@email.ru",
-                Type = "0",
-                Placeid = "Depo",
-                SendPassword = true,
-                VerifyPhone = true
+                PhoneNumber = "+79998882233",
+                Name = "Gosha"
             };
             Console.WriteLine(query.Authorization(uri1, "v.piskov@coffeemania.ru", "dkYnjkdkjd77"));
-            Console.WriteLine(query.CreaterRecipient(recipient,uri2));
+            Console.WriteLine(query.CreaterRecipient(recipient, uri2));
             Console.WriteLine();
-        }
+          }
     }
 }
