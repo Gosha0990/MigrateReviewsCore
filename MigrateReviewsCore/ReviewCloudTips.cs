@@ -1,18 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿using MigrateReviewsCore.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace MigrateReviewsCore
 {
     internal class ReviewCloudTips
     {
         public string _Token { get; set; }
+        public string _RefreshToken { get; set; }
+
         #region Autorization Client
         public string Authorization(string uri, string userName, string password)
         {
@@ -37,34 +36,59 @@ namespace MigrateReviewsCore
                 result = jsonTask.Result.ToString();
                 Token t = JsonConvert.DeserializeObject<Token>(result);
                 _Token = t.access_token.ToString();
+                _RefreshToken = t.refresh_token.ToString();
             }
                 return "Autorization";
         }
         #endregion
-        public string CreaterRecipient(Recipient recipient, string uri)
-        {            
-            var reqest = JsonConvert.SerializeObject(recipient);
-            var recipientCollection = new List<KeyValuePair<string, string>>()
-            { 
-                new KeyValuePair<string, string>("json",reqest)
-            };
+        #region CreaterRecipient
+        public string CreationPostRequest(object data, string uri)
+        {
+            string result = null;
+            var request = JsonConvert.SerializeObject(data);
             using (var client = new HttpClient())
             {
-
                 var httpRequest = new HttpRequestMessage()
                 {
                     RequestUri = new Uri(uri),
-                    Method = HttpMethod.Post,
-                    
-                    Content = new FormUrlEncodedContent(recipientCollection)
-                    
+                    Method = HttpMethod.Post,                   
+                    Content = new StringContent(request, Encoding.UTF8, "application/json")           
                 };
-                httpRequest.Headers.Add("AuthorizationBearer", _Token);
-                var httpResponse = client.Send(httpRequest).RequestMessage;
-                var jsonTask = httpResponse.Content;
-                var res = jsonTask.ToString();
+                httpRequest.Headers.Add("Authorization", $"Bearer {_Token}");
+                var httpResponse = client.SendAsync(httpRequest).Result;
+                var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+                result = jsonTask;
             }
-            return "CreaterRecipient";
+            return result;
         }
+        #endregion
+
+        #region RefreshToken
+        public string RefreshToken(string uri)
+        {
+            var value = new Dictionary<string, string>();
+            value.Add("Content-Type", "application/x-www-form-urlencoded");
+            value.Add("Grant_type", "refresh_token");
+            value.Add("Client_id", "Partner");
+            value.Add("refresh_token", _RefreshToken);
+            string res;
+            using (var client = new HttpClient())
+            {
+                var httpRequest = new HttpRequestMessage() 
+                { 
+                    RequestUri = new Uri(uri),
+                    Method= HttpMethod.Post,
+                    Content  = new FormUrlEncodedContent(value)
+                };
+                var httpResponse = client.SendAsync(httpRequest).Result;
+                var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+                res = jsonTask.ToString();
+                Token t = JsonConvert.DeserializeObject<Token>(res);
+                _Token = t.access_token.ToString();
+                _RefreshToken = t.refresh_token.ToString();
+            }
+                return _Token;
+        }
+        #endregion
     }
 }
