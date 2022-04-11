@@ -62,7 +62,18 @@ namespace MigrateReviewsCore
             return result;
         }
         #endregion
-
+        public string CreationGetRequest(string uri)
+        { 
+            string res = null;
+            using(var client = new HttpClient())
+            {
+                var httpRequest = new HttpRequestMessage()
+                {
+                    Method = HttpMethod.Get,
+                };
+            }
+            return " ";
+        }
         #region RefreshToken
         public string RefreshToken(string uri)
         {
