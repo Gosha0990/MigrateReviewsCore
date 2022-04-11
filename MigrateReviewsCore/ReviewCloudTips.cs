@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using MigrateReviewsCore.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace MigrateReviewsCore
 {
@@ -46,24 +42,27 @@ namespace MigrateReviewsCore
         }
         #endregion
         #region CreaterRecipient
-        public string CreaterRecipient(Recipient recipient, string uri)
+        public string CreationPostRequest(object data, string uri)
         {
-            var reqest = JsonConvert.SerializeObject(recipient);
+            string result = null;
+            var request = JsonConvert.SerializeObject(data);
             using (var client = new HttpClient())
             {
                 var httpRequest = new HttpRequestMessage()
                 {
                     RequestUri = new Uri(uri),
                     Method = HttpMethod.Post,                   
-                    Content = new StringContent(reqest, Encoding.UTF8, "application/json")           
+                    Content = new StringContent(request, Encoding.UTF8, "application/json")           
                 };
                 httpRequest.Headers.Add("Authorization", $"Bearer {_Token}");
                 var httpResponse = client.SendAsync(httpRequest).Result;
                 var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+                result = jsonTask;
             }
-            return "Creat";
+            return result;
         }
         #endregion
+
         #region RefreshToken
         public string RefreshToken(string uri)
         {
