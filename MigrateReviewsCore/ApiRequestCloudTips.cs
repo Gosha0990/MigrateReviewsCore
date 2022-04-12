@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MigrateReviewsCore
 {
-    internal class ReviewCloudTips
+    internal class ApiRequestCloudTips
     {
         public string _Token { get; set; }
         public string _RefreshToken { get; set; }
