@@ -14,8 +14,12 @@ namespace MigrateReviewsCore
         public string BasicToken { get; set; }
         public string ztest()
         {
+            var content = new Dictionary<string, string>();
+            content.Add("name", "anton");
+            var json = JsonConvert.SerializeObject(content);
             var client = new HttpClient();
             var httpRequest = new HttpRequestMessage();
+            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
             httpRequest.Method = HttpMethod.Post;
             httpRequest.RequestUri = new Uri(@"https://zendesk.com/api/v2/tickets");
             httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");
@@ -25,7 +29,6 @@ namespace MigrateReviewsCore
         }
         public string GenerationToken()
         {
-            var token = "vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws";
             var email = "a.yakovleva@coffeemania.ru/token:vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws";
             var resToken = Encoding.UTF8.GetBytes(email);
             var res = Convert.ToBase64String(resToken);
