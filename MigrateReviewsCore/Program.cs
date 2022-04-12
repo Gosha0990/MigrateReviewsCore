@@ -15,25 +15,28 @@ namespace MigrateReviewsCore
             var listRecPlace = "https://api-sandbox.cloudtips.ru/api/places/62543127a84a2c26a9f81788/employees";
             //var uriAttachEmployees = " https://api-sandbox.cloudtips.ru/api/places/62543127a84a2c26a9f81788/employees/attach-one";
             var query = new ApiRequestCloudTips();
-            query.Authorization(uriAuthorizatiom, "v.piskov@coffeemania.ru", "dkYnjkdkjd77");
-            var places = new Places()
-            { 
-                Name ="CoffeeTest"
-            };
-            var recipient = new Recipient()
-            {
-                PhoneNumber = "+79998882233",
-                Name = "Gosha",
-            };
-            var feedBack = new Feedbacks()
-            {
-                Limit = 1
-            };
-            var emp = new Employees()
-            {
-                PlaceId = "62543127a84a2c26a9f81788"
-            };
-            Console.WriteLine(query.GetRequest(listRecPlace, emp));
+            var test = new TestZendeskApi();
+            test.GenerationToken();
+            test.ztest();
+            //query.Authorization(uriAuthorizatiom, "v.piskov@coffeemania.ru", "dkYnjkdkjd77");
+            //var places = new Places()
+            //{ 
+            //    Name ="CoffeeTest"
+            //};
+            //var recipient = new Recipient()
+            //{
+            //    PhoneNumber = "+79998882233",
+            //    Name = "Gosha",
+            //};
+            //var feedBack = new Feedbacks()
+            //{
+            //    Limit = 1
+            //};
+            //var emp = new Employees()
+            //{
+            //    PlaceId = "62543127a84a2c26a9f81788"
+            //};
+            //Console.WriteLine(query.GetRequest(listRecPlace, emp));
             //Console.WriteLine(query.CreationPostRequest(uriAttachEmployees,attachEmp));
             //Console.WriteLine(query.CreationPostRequest(recipient, uriCreationRecipient));
           }
