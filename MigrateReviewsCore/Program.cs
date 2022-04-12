@@ -14,7 +14,7 @@ namespace MigrateReviewsCore
             //var uriFeed = "https://api-sandbox.cloudtips.ru/api/feedbacks";
             var listRecPlace = "https://api-sandbox.cloudtips.ru/api/places/62543127a84a2c26a9f81788/employees";
             //var uriAttachEmployees = " https://api-sandbox.cloudtips.ru/api/places/62543127a84a2c26a9f81788/employees/attach-one";
-            var query = new ReviewCloudTips();
+            var query = new ApiRequestCloudTips();
             query.Authorization(uriAuthorizatiom, "v.piskov@coffeemania.ru", "dkYnjkdkjd77");
             var places = new Places()
             { 
