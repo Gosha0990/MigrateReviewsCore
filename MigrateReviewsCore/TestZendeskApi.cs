@@ -16,7 +16,7 @@ namespace MigrateReviewsCore
         {
             var client = new HttpClient();
             var httpRequest = new HttpRequestMessage();
-            httpRequest.Method = HttpMethod.Get;
+            httpRequest.Method = HttpMethod.Post;
             httpRequest.RequestUri = new Uri(@"https://zendesk.com/api/v2/tickets");
             httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");
             var response = client.SendAsync(httpRequest).Result;
