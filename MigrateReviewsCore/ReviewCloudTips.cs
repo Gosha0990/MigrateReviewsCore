@@ -41,8 +41,8 @@ namespace MigrateReviewsCore
                 return "Autorization";
         }
         #endregion
-        #region CreaterRecipient
-        public string CreationPostRequest(object data, string uri)
+        #region PostRequest
+        public string PostRequest(string uri, object data)
         {
             string result = null;
             var request = JsonConvert.SerializeObject(data);
@@ -62,17 +62,27 @@ namespace MigrateReviewsCore
             return result;
         }
         #endregion
-        public string CreationGetRequest(string uri)
-        { 
-            string res = null;
-            using(var client = new HttpClient())
+        #region GetRequest
+        public string GetRequest(string uri, object data)
+        {
+            var request = JsonConvert.SerializeObject(data);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_Token}");
+            var httpRequest = new HttpRequestMessage()
             {
-                var httpRequest = new HttpRequestMessage()
-                {
-                    Method = HttpMethod.Get,
-                };
-            }
-            return " ";
+                RequestUri = new Uri(uri),
+                Method = HttpMethod.Get,
+                Content = new StringContent(request, Encoding.UTF8, "application/json")
+            };
+            var httpResponse = client.SendAsync(httpRequest).Result;
+            var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+            return jsonTask;
+        }
+        #endregion
+        public string SaveFeedbcks(string content)
+        {
+
+            return "SaveFeedbacks";
         }
         #region RefreshToken
         public string RefreshToken(string uri)
