@@ -78,6 +78,19 @@ namespace MigrateReviewsCore
             var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
             return jsonTask;
         }
+        public string GetRequest(string uri)
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_Token}");
+            var httpRequest = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(uri),
+                Method = HttpMethod.Get              
+            };
+            var httpResponse = client.SendAsync(httpRequest).Result;
+            var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+            return "";
+        }
         #endregion
         public string SaveFeedbcks(string content)
         {
