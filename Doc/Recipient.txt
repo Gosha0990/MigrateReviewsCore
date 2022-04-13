@@ -17,3 +17,5 @@ Place
 "succeed":true,
 "errors":null,
 "validationErrors":null}
+
+"https://pay-sandbox.cloudtips.ru/p/dc694e26"

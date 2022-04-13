@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MigrateReviewsCore.Data;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,23 +15,36 @@ namespace MigrateReviewsCore
         public string BasicToken { get; set; }
         public string ztest()
         {
+            var comment = new Comment()
+            {
+                Body = "Test"
+            };
+            var ticket = new CreationTickets()
+            {
+                Comment = comment,
+            };
             var content = new Dictionary<string, string>();
             content.Add("name", "anton");
             var json = JsonConvert.SerializeObject(content);
-            var client = new HttpClient();
-            var httpRequest = new HttpRequestMessage();
-            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-            httpRequest.Method = HttpMethod.Post;
-            httpRequest.RequestUri = new Uri(@"https://zendesk.com/api/v2/tickets");
-            httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");
-            var response = client.SendAsync(httpRequest).Result;
-            var res = response.Content.ReadAsStringAsync().Result;
-            return " ";
+            using (var client = new HttpClient())
+            {
+                var httpRequest = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri("https://coffeemania.zendesk.com/api/v2/tickets"),
+                    Method = HttpMethod.Post,
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
+                };
+                httpRequest.Headers.Add("Accept", "application/json");
+                httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");
+                var httpResponse = client.SendAsync(httpRequest).Result;
+                var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
+            }
+                return " ";
         }
         public string GenerationToken()
         {
             var email = "a.yakovleva@coffeemania.ru/token:vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws";
-            var resToken = Encoding.UTF8.GetBytes(email);
+            var resToken = Encoding.ASCII.GetBytes(email);
             var res = Convert.ToBase64String(resToken);
             BasicToken = res;
             return res;

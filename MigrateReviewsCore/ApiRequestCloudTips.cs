@@ -13,7 +13,7 @@ namespace MigrateReviewsCore
         public string _RefreshToken { get; set; }
 
         #region Autorization Client
-        public string Authorization(string uri, string userName, string password)
+        public bool Authorization(string uri, string userName, string password)
         {
             var value = new Dictionary<string, string>();
             value.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -37,8 +37,8 @@ namespace MigrateReviewsCore
                 Token t = JsonConvert.DeserializeObject<Token>(result);
                 _Token = t.access_token.ToString();
                 _RefreshToken = t.refresh_token.ToString();
+                return true;
             }
-                return "Autorization";
         }
         #endregion
         #region PostRequest
@@ -89,14 +89,9 @@ namespace MigrateReviewsCore
             };
             var httpResponse = client.SendAsync(httpRequest).Result;
             var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
-            return "";
+            return jsonTask;
         }
         #endregion
-        public string SaveFeedbcks(string content)
-        {
-
-            return "SaveFeedbacks";
-        }
         #region RefreshToken
         public string RefreshToken(string uri)
         {
