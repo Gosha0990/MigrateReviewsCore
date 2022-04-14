@@ -9,7 +9,6 @@ namespace MigrateReviewsCore.Data
     [Serializable]
     internal class ResultFeedback
     {
-        public string date { get; set; }
         //public int Amount { get; set; }
         //public string UserId { get; set; }
         //public string UserPhoneNumber { get; set; }
@@ -20,9 +19,12 @@ namespace MigrateReviewsCore.Data
         //public string placeExternaslId { get; set; }
         //public string invoiceId { get; set; }
         //public string layoutId { get; set; }
-        //public string Comment { get; set; }
+        [Newtonsoft.Json.JsonProperty("comment")]
+        public string Comment { get; set; }
         //public string rating { get; set; }
         //public int score { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("components")]
         public string components { get; set; }
         //public string id { get; set; }
         //public string title { get; set; }
