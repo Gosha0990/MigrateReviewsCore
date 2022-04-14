@@ -19,7 +19,7 @@ namespace MigrateReviewsCore
             ApiToken = apiToken;
             Email = email;
         }
-        public string CreationPostRequest(string url, object data)
+        public string PostRequest(string url, object data)
         {
             GenerationToken();
             string result = null; 

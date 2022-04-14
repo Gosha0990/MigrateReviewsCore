@@ -12,16 +12,13 @@ namespace MigrateReviewsCore
         private string _urlFeedback = "https://api-sandbox.cloudtips.ru/api/feedbacks?Limit=";
         private string _nameAuthorization;
         private string _passwordAuthorization;
-        private object _request;
-        public List<string> Feedbacks { get; set; }
-        
+        public List<string> Feedbacks { get; set; }        
         public MigrateFeedbacks(string nameAuthorization, string passwordAuthorization, int limit)
         {   
             
            _urlFeedback = _urlFeedback + limit.ToString();
             _nameAuthorization = nameAuthorization;
             _passwordAuthorization = passwordAuthorization;
-            //_request = request;
         }
         public void GetFeedbackCloudTips()
         {
