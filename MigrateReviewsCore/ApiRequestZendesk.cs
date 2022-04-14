@@ -19,9 +19,10 @@ namespace MigrateReviewsCore
             ApiToken = apiToken;
             Email = email;
         }
-        public bool CreationTiket(string url, object data)
+        public string CreationPostRequest(string url, object data)
         {
             GenerationToken();
+            string result = null; 
             var json = JsonConvert.SerializeObject(data);
             using (var client = new HttpClient()) 
             {
@@ -29,13 +30,14 @@ namespace MigrateReviewsCore
                 {
                     RequestUri = new Uri(url),
                     Method = HttpMethod.Post,
-                    Content = new StringContent(json)
+                    Content = new StringContent(json, Encoding.UTF8, "application/json")
                 };
-                httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");
+                httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");//{BasicToken}
                 var response = client.SendAsync(httpRequest).Result;
                 var jsonTask = JsonConvert.SerializeObject(response);
+                result = jsonTask;
             }
-                return true;
+            return result;
         }
         #region GenerationToken
         private void GenerationToken()

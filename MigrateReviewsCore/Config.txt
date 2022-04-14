@@ -1,4 +1,0 @@
-﻿https://identity-sandbox.cloudtips.ru/connect/token
-v.piskov@coffeemania.ru
-dkYnjkdkjd77
-Creater: https://api-sandbox.cloudtips.ru/api/receivers
