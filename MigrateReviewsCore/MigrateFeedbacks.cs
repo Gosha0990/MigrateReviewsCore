@@ -47,7 +47,7 @@ namespace MigrateReviewsCore
             foreach (var feedback in Feedbacks)
             {
                 body.body = feedback;
-                zendesk.CreationPostRequest(url, tiket);
+                //zendesk.CreationPostRequest(url, tiket);
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
             return "";    
