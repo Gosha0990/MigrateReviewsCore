@@ -26,6 +26,7 @@ namespace MigrateReviewsCore
         }
         public string SetFeedBacksZendesk(string token, string email, string url)
         {
+            var result = " ";
             var zendesk = new ApiRequestZendesk(token, email);
             var body = new Comment();             
             var comment = new Tickets()
@@ -41,9 +42,9 @@ namespace MigrateReviewsCore
             foreach (var feedback in Feedbacks)
             {
                 body.body = feedback;
-                //zendesk.CreationPostRequest(url, tiket);                
+                //result = zendesk.PostRequest(url, tiket);                
             }
-            return "";    
+            return result;    
         }
         private List<string> GetListFeedbacks(string json)
         {

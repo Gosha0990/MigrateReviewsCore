@@ -16,9 +16,8 @@ namespace MigrateReviewsCore
             var feedback = new MigrateFeedbacks(name, password, 5);
             feedback.GetFeedbackCloudTips();
             var fe = feedback.Feedbacks;
-            feedback.SetFeedBacksZendesk("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
-            
-
+            var result = feedback.SetFeedBacksZendesk("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
+            Console.WriteLine(result);
         }
     }
 }
