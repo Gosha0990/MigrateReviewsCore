@@ -1,7 +1,4 @@
 ﻿using MigrateReviewsCore.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 
 namespace MigrateReviewsCore
@@ -44,8 +41,7 @@ namespace MigrateReviewsCore
             foreach (var feedback in Feedbacks)
             {
                 body.body = feedback;
-                //zendesk.CreationPostRequest(url, tiket);
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //zendesk.CreationPostRequest(url, tiket);                
             }
             return "";    
         }
