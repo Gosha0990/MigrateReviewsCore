@@ -1,7 +1,0 @@
-﻿https://identity-sandbox.cloudtips.ru/connect/token
-v.piskov@coffeemania.ru
-dkYnjkdkjd77
-Creater: https://api-sandbox.cloudtips.ru/api/receivers
-https://{{subdomain}}.zendesk.com/api/v2/search.json?query=role%3Aend-user%20phone%3A%2b971585641858
-https://coffeemania.zendesk.com/api/v2/users/create_or_update.json
-https://coffeemania.zendesk.com/api/v2/users/create_or_update.json
