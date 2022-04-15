@@ -1,6 +1,11 @@
 ﻿using MigrateReviewsCore.Data;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System;
+using MigrateReviewsCore.DataBase;
+using Microsoft.EntityFrameworkCore;
 
 namespace MigrateReviewsCore
 {
@@ -41,7 +46,10 @@ namespace MigrateReviewsCore
             foreach (var feedback in Feedbacks)
             {
                 body.body = feedback.Comment;
-                //zendesk.PostRequest(url, tiket);
+                //result += "\n"+ zendesk.PostRequest(url, tiket);
+                var date = DateTime.Parse(feedback.Date);
+                
+                LogginInDB(feedback.id, date, feedback.Comment);
             }            
             return result;    
         }
@@ -51,6 +59,25 @@ namespace MigrateReviewsCore
             ResultFeedback[] res = dis.data.items;            
             return res;
         }
-        
+        private void LogginInDB(string id, DateTime date, string comment)
+        {
+            var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .AddUserSecrets<Program>()
+            .Build();
+            using (var context = new StreamingServiceContext(config.GetConnectionString("Default")))
+            {
+                context.Database.Migrate();
+
+                context.Add(new FeedbackCloudTips
+                {
+                    Id = id,
+                    Date = date,
+                    Comment = comment
+                });
+                context.SaveChanges();
+            }
+        }
     }
 }
