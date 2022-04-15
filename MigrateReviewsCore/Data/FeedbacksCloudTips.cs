@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MigrateReviewsCore.Data
 {
-    internal class Feedbacks
+    internal class FeedbacksCloudTips
     {
-      //  public string DateFrom { get; set; }
-     //   public string DateTo { get; set; }
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
       //  public string[] PlaceId { get; set; }
        // public string PhoneNuber { get; set; }
       //  public string TransactionId { get; set; }
