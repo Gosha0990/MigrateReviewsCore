@@ -31,7 +31,7 @@ namespace MigrateReviewsCore
                 };
                 httpRequest.Headers.Add("Authorization", $"Basic {BasicToken}");//{BasicToken}
                 var response = client.SendAsync(httpRequest).Result;
-                var jsonTask = JsonConvert.SerializeObject(response);
+                var jsonTask = response.Content.ReadAsStringAsync().Result;
                 result = jsonTask;
             }
             return result;

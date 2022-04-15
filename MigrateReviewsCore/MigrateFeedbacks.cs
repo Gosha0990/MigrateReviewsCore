@@ -1,4 +1,5 @@
 ﻿using MigrateReviewsCore.Data;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace MigrateReviewsCore
@@ -9,11 +10,11 @@ namespace MigrateReviewsCore
         private string _urlFeedback = "https://api-sandbox.cloudtips.ru/api/feedbacks?Limit=";
         private string _nameAuthorization;
         private string _passwordAuthorization;
-        public List<string> Feedbacks { get; set; }        
-        public MigrateFeedbacks(string nameAuthorization, string passwordAuthorization, int limit)
-        {   
-            
-           _urlFeedback = _urlFeedback + limit.ToString();
+        
+        public ResultFeedback[] Feedbacks { get; set; }        
+        public MigrateFeedbacks(string nameAuthorization, string passwordAuthorization, string limit, string dateFrom)
+        {
+            _urlFeedback = string.Format($"https://api-sandbox.cloudtips.ru/api/feedbacks?Limit={limit}&DateFrom={dateFrom}");
             _nameAuthorization = nameAuthorization;
             _passwordAuthorization = passwordAuthorization;
         }
@@ -21,8 +22,8 @@ namespace MigrateReviewsCore
         {
             var cloudTips = new ApiRequestCloudTips();
             cloudTips.Authorization(_urlAutorization, _nameAuthorization, _passwordAuthorization);
-            var jsonfeedbacks = cloudTips.GetRequest(_urlFeedback);
-            Feedbacks = GetListFeedbacks(jsonfeedbacks);            
+            var jsonfeedbacks = cloudTips.GetRequest(_urlFeedback);            
+            Feedbacks = GetArrayFeedbacks(jsonfeedbacks);            
         }
         public string SetFeedBacksZendesk(string token, string email, string url)
         {
@@ -32,8 +33,6 @@ namespace MigrateReviewsCore
             var comment = new Tickets()
             {
                 comment = body,
-                priority = "urgent",
-                subject = "Test"
             };
             var tiket = new CreationTeket() 
             {
@@ -41,24 +40,16 @@ namespace MigrateReviewsCore
             };
             foreach (var feedback in Feedbacks)
             {
-                body.body = feedback;
-                //result = zendesk.PostRequest(url, tiket);                
-            }
+                body.body = feedback.Comment;
+                //zendesk.PostRequest(url, tiket);
+            }            
             return result;    
         }
-        private List<string> GetListFeedbacks(string json)
+        private ResultFeedback[] GetArrayFeedbacks(string json)
         {
-            string[] arrayJson = json.Split('"');
-            List<string> list = new List<string>();
-            for (int i = 0; i < arrayJson.Length; i++)
-            {
-                if (arrayJson[i] == "comment")
-                {
-                    i += +2;
-                    list.Add(arrayJson[i]);
-                }
-            }
-            return list;
+            var dis = JsonConvert.DeserializeObject<DataF>(json);
+            ResultFeedback[] res = dis.data.items;            
+            return res;
         }
         
     }
