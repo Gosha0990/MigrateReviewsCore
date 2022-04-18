@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MigrateReviewsCore.Data
+namespace MigrateReviewsCore.DataApi
 {
     [Serializable]
     internal class DataF
     { 
         public Items data { get; set; }
     }
-    internal class Items
+    internal class ItemsFeedback
     { 
         public ResultFeedback[] items { get; set; }
     }
     internal class ResultFeedback
     {
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         //public int Amount { get; set; }
         //public string UserId { get; set; }
         //public string UserPhoneNumber { get; set; }
