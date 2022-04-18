@@ -16,7 +16,6 @@ namespace MigrateReviewsCore
 
             var result = feedback.SetFeedBacksZendeskAndDb("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
             Console.WriteLine(result);
-
         }
     }
 }

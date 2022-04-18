@@ -14,9 +14,10 @@ namespace MigrateReviewsCore.DataApi
     {
         public Comment Comment { get; set; }
         public string Priority { get; set; }
-        public string Bubject { get; set; }
+        public string Subject { get; set; }
         public string[] Tags { get; set; }
     }
+
     internal class Comment
     { 
         public string Body { get; set; }
