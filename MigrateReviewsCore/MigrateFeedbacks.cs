@@ -113,7 +113,7 @@ namespace MigrateReviewsCore
                         .Select(x => x.Date)).ToList().Last();
                     resDateTime = date;
                 }
-                catch (Exception ex)
+                catch
                 {
                     resDateTime = DateTime.Today;
                 }
