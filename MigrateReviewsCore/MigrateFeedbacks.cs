@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System;
 using MigrateReviewsCore.DataBase;
@@ -17,7 +15,6 @@ namespace MigrateReviewsCore
         private string _nameAuthorization;
         private string _passwordAuthorization;
         private DateTime _lastUpdateTimeDb;
-        private DateTime _lastUpdateTimeCloudTips;
         public Items[] Feedbacks { get; set; }
         
         public MigrateFeedbacks(string nameAuthorization, string passwordAuthorization)
@@ -51,7 +48,7 @@ namespace MigrateReviewsCore
                 var comment = new Tickets()
                 {
                     Comment = body,
-                    Bubject = "TestCloudTipsTest",
+                    Subject = "TestCloudTipsTest",
                 };
                 var tiket = new CreationTeket()
                 {
