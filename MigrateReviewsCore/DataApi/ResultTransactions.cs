@@ -19,7 +19,11 @@ namespace MigrateReviewsCore.DataApi
         public string Id { get; set; }
         public DateTime Date { get; set; }
         public string Comment { get; set; }
-        public string Rating { get; set; }
+        public ItemReting Rating { get; set; }
         public string PlaceExternalId { get; set; }
+    }
+    internal class ItemReting
+    {
+        public int Score { get; set; }
     }
 }
