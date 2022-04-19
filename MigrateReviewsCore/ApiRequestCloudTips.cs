@@ -8,11 +8,11 @@ namespace MigrateReviewsCore
 {
     internal class ApiRequestCloudTips
     {
-        public string _Token { get; set; }
-        public string _RefreshToken { get; set; }
+        public string Token { get; set; }
+        public string RefreshToken { get; set; }
 
         #region Autorization Client
-        public bool Authorization(string uri, string userName, string password)
+        public void Authorization(string uri, string userName, string password)
         {
             var value = new Dictionary<string, string>();
             value.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -34,9 +34,8 @@ namespace MigrateReviewsCore
                 var jsonTask = httpResponse.Content.ReadAsStringAsync();
                 result = jsonTask.Result.ToString();
                 Token t = JsonConvert.DeserializeObject<Token>(result);
-                _Token = t.access_token.ToString();
-                _RefreshToken = t.refresh_token.ToString();
-                return true;
+                Token = t.access_token.ToString();
+                RefreshToken = t.refresh_token.ToString();
             }
         }
         #endregion
@@ -53,7 +52,7 @@ namespace MigrateReviewsCore
                     Method = HttpMethod.Post,                   
                     Content = new StringContent(request, Encoding.UTF8, "application/json")           
                 };
-                httpRequest.Headers.Add("Authorization", $"Bearer {_Token}");
+                httpRequest.Headers.Add("Authorization", $"Bearer {Token}");
                 var httpResponse = client.SendAsync(httpRequest).Result;
                 var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
                 result = jsonTask;
@@ -66,7 +65,7 @@ namespace MigrateReviewsCore
         {
             var request = JsonConvert.SerializeObject(data);
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_Token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
             var httpRequest = new HttpRequestMessage()
             {
                 RequestUri = new Uri(uri),
@@ -80,7 +79,7 @@ namespace MigrateReviewsCore
         public string GetRequest(string uri)
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_Token}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Token}");
             var httpRequest = new HttpRequestMessage()
             {
                 RequestUri = new Uri(uri),
@@ -92,13 +91,13 @@ namespace MigrateReviewsCore
         }
         #endregion
         #region RefreshToken
-        public string RefreshToken(string uri)
+        public string SetRefreshToken(string uri)
         {
             var value = new Dictionary<string, string>();
             value.Add("Content-Type", "application/x-www-form-urlencoded");
             value.Add("Grant_type", "refresh_token");
             value.Add("Client_id", "Partner");
-            value.Add("refresh_token", _RefreshToken);
+            value.Add("refresh_token", RefreshToken);
             string res;
             using (var client = new HttpClient())
             {
@@ -112,10 +111,10 @@ namespace MigrateReviewsCore
                 var jsonTask = httpResponse.Content.ReadAsStringAsync().Result;
                 res = jsonTask.ToString();
                 Token t = JsonConvert.DeserializeObject<Token>(res);
-                _Token = t.access_token.ToString();
-                _RefreshToken = t.refresh_token.ToString();
+                Token = t.access_token.ToString();
+                RefreshToken = t.refresh_token.ToString();
             }
-                return _Token;
+                return Token;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,10 +17,19 @@ namespace MigrateReviewsCore.DataApi
         public string Priority { get; set; }
         public string Subject { get; set; }
         public string[] Tags { get; set; }
+        public CustomFilds custom_fields { get; set; }
     }
 
     internal class Comment
     { 
         public string Body { get; set; }
+    }
+    internal class CustomFilds
+    {
+        //рейтинг
+        [JsonProperty(PropertyName = "360017986557")]
+        public int rating { get;set;}
+        [JsonProperty(PropertyName = "360016140737")]
+        public string NumberPlace { get; set; }
     }
 }

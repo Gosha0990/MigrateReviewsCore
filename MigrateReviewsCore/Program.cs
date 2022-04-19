@@ -1,6 +1,7 @@
 ﻿using MigrateReviewsCore.DataApi;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace MigrateReviewsCore
 {
@@ -14,8 +15,7 @@ namespace MigrateReviewsCore
             feedback.GetFeedbackCloudTips();
             var fe = feedback.Feedbacks;
 
-            var result = feedback.SetFeedBacksZendeskAndDb("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
-            Console.WriteLine(result);
+            feedback.SetFeedBacksZendeskAndDb("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
         }
     }
 }

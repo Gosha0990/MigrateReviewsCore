@@ -16,7 +16,7 @@ namespace MigrateReviewsCore
             ApiToken = apiToken;
             Email = email;
         }
-        public string PostRequest(string url, object data)
+        public void PostRequest(string url, object data)
         {
             GenerationToken();
             string result = null; 
@@ -34,7 +34,6 @@ namespace MigrateReviewsCore
                 var jsonTask = response.Content.ReadAsStringAsync().Result;
                 result = jsonTask;
             }
-            return result;
         }
         #region GenerationToken
         private void GenerationToken()
