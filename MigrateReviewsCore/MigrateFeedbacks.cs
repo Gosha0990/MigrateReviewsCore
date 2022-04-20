@@ -56,7 +56,7 @@ namespace MigrateReviewsCore
                         creatTiket.ticket.tags = array;
                         creatTiket.ticket.custom_fields.rating = feedback?.Rating?.Score ?? 0;
                         creatTiket.ticket.custom_fields.NumberPlace = feedback?.PlaceExternalId ?? "";
-                        //zendesk.PostRequest(url, creatTiket);
+                        zendesk.PostRequest(url, creatTiket);
                         LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
                     }
                     else
@@ -68,7 +68,7 @@ namespace MigrateReviewsCore
                 Console.WriteLine(ex.Message);
             }
         }
-        public Items[] DeserializeAnswerCloudTips(string json)
+        private Items[] DeserializeAnswerCloudTips(string json)
         {
             var dis = JsonConvert.DeserializeObject<ResultTransactions>(json);
             var res = dis.data.Items;          
