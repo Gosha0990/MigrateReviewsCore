@@ -9,20 +9,20 @@ namespace MigrateReviewsCore.DataApi
 {
     internal class CreationTeket
     { 
-        public Tickets Ticket { get; set; }
+        public Tickets ticket { get; set; }
     }
     internal class Tickets
     {
-        public Comment Comment { get; set; }
-        public string Priority { get; set; }
-        public string Subject { get; set; }
-        public string[] Tags { get; set; }
+        public Comment comment { get; set; }
+        public string priority { get; set; }
+        public string subject { get; set; }
+        public string[] tags { get; set; }
         public CustomFilds custom_fields { get; set; }
     }
 
     internal class Comment
     { 
-        public string Body { get; set; }
+        public string body { get; set; }
     }
     internal class CustomFilds
     {
@@ -30,6 +30,6 @@ namespace MigrateReviewsCore.DataApi
         [JsonProperty(PropertyName = "360017986557")]
         public int rating { get;set;}
         [JsonProperty(PropertyName = "360016140737")]
-        public string NumberPlace { get; set; }
+        public string? NumberPlace { get; set; }
     }
 }

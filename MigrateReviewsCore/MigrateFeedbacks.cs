@@ -11,7 +11,7 @@ namespace MigrateReviewsCore
     internal class MigrateFeedbacks
     {
         readonly string _urlAutorization = "https://identity-sandbox.cloudtips.ru/connect/token";
-        readonly string _urlFeedback = "https://api-sandbox.cloudtips.ru/api/transactions";
+        private string _urlTransactions = "https://api-sandbox.cloudtips.ru/api/transactions";
         readonly string _nameAuthorization;
         readonly string _passwordAuthorization;
         private DateTime lastUpdateTimeDb;
@@ -26,17 +26,9 @@ namespace MigrateReviewsCore
         {
             var cloudTips = new ApiRequestCloudTips();
             cloudTips.Authorization(_urlAutorization, _nameAuthorization, _passwordAuthorization);
-            lastUpdateTimeDb = GetLastDataTimeDb();            
-            if (lastUpdateTimeDb != DateTime.Now)
-            {
-                var trans = new RequestTransactions()
-                { 
-                    DateFrom = lastUpdateTimeDb
-
-                };
-                var jsonfeedbacks = cloudTips.GetRequest(_urlFeedback,trans);
-                Feedbacks = DeserializeAnswerCloudTips(jsonfeedbacks);
-            }                        
+            lastUpdateTimeDb = GetLastDataTimeDb();
+            _urlTransactions += $"?dateFrom={lastUpdateTimeDb.ToString("yyyy-MM-ddTHH:mm")}";
+            Feedbacks = DeserializeAnswerCloudTips(cloudTips.GetRequest(_urlTransactions));
         }
         public void SetFeedBacksZendeskAndDb(string token, string email, string url)
         {
@@ -44,51 +36,28 @@ namespace MigrateReviewsCore
             {
                 string[] array = new string[2];
                 var zendesk = new ApiRequestZendesk(token, email);
-                var cust = new CustomFilds();
-                var body = new Comment();
-                var comment = new Tickets()
+                var creatTiket = new CreationTeket()
                 {
-                    Comment = body,
-                    Subject = "TestCloudTipsTest",
-                    custom_fields = cust
-                };
-                var tiket = new CreationTeket()
-                {
-                    Ticket = comment
-                };
-                
+                   ticket = new Tickets()
+                   { 
+                      comment = new Comment(),
+                      custom_fields = new CustomFilds()
+                   },
+                };                                
                 foreach (var feedback in Feedbacks)
                 {                    
-                    var lastIdDb = GetLastIdDb();
-                    if (feedback.Id != lastIdDb)
+                    if (feedback.Id != GetLastIdDb() && (feedback.Comment != "" || feedback.Rating != null))
                     {
-                        if (feedback.Comment != "" || feedback.Rating != null)
-                        {
-                            if (feedback.Rating == null)
-                            {
-                                body.Body = feedback.Comment;
-                                array[0] = feedback.PlaceExternalId;
-                                array[1] = "api";
-                                comment.Tags = array;
-                                cust.rating = 0;
-                                cust.NumberPlace = feedback.PlaceExternalId;
-                                zendesk.PostRequest(url, tiket);
-                                var date = feedback.Date;
-                                LogginInDB(feedback.Id, date, feedback.Comment);
-                            }
-                            else
-                            {
-                                body.Body = feedback.Comment;
-                                array[0] = feedback.PlaceExternalId;
-                                array[1] = "api";
-                                comment.Tags = array;
-                                cust.rating = feedback.Rating.Score;
-                                cust.NumberPlace = feedback.PlaceExternalId.ToString();
-                                zendesk.PostRequest(url, tiket);
-                                var date = feedback.Date;
-                                LogginInDB(feedback.Id, date, feedback.Comment);
-                            }
-                        }
+                        creatTiket.ticket.comment.body = feedback.Comment;
+                        creatTiket.ticket.priority = "normal";
+                        creatTiket.ticket.subject = "Test_CloudTips_Test";
+                        array[0] = feedback?.PlaceExternalId ?? "";
+                        array[1] = "api";
+                        creatTiket.ticket.tags = array;
+                        creatTiket.ticket.custom_fields.rating = feedback?.Rating?.Score ?? 0;
+                        creatTiket.ticket.custom_fields.NumberPlace = feedback?.PlaceExternalId ?? "";
+                        //zendesk.PostRequest(url, creatTiket);
+                        LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
                     }
                     else
                         break;
