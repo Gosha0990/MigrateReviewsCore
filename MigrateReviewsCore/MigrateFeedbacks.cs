@@ -14,7 +14,6 @@ namespace MigrateReviewsCore
         private string _urlTransactions = "https://api-sandbox.cloudtips.ru/api/transactions";
         readonly string _nameAuthorization;
         readonly string _passwordAuthorization;
-        private DateTime lastUpdateTimeDb;
         public Items[] Feedbacks { get; set; }
         
         public MigrateFeedbacks(string nameAuthorization, string passwordAuthorization)
@@ -26,16 +25,13 @@ namespace MigrateReviewsCore
         {
             var cloudTips = new ApiRequestCloudTips();
             cloudTips.Authorization(_urlAutorization, _nameAuthorization, _passwordAuthorization);
-            lastUpdateTimeDb = GetLastDataTimeDb();
-            _urlTransactions += $"?dateFrom={lastUpdateTimeDb.ToString("yyyy-MM-ddTHH:mm")}";
+            _urlTransactions += $"?dateFrom={GetLastDataTimeDb().ToString("yyyy-MM-ddTHH:mm")}";
             Feedbacks = DeserializeAnswerCloudTips(cloudTips.GetRequest(_urlTransactions));
         }
         public void SetFeedBacksZendeskAndDb(string token, string email, string url)
         {
             try
             {
-                string[] array = new string[2];
-                var zendesk = new ApiRequestZendesk(token, email);
                 var creatTiket = new CreationTeket()
                 {
                    ticket = new Tickets()
@@ -51,13 +47,11 @@ namespace MigrateReviewsCore
                         creatTiket.ticket.comment.body = feedback.Comment;
                         creatTiket.ticket.priority = "normal";
                         creatTiket.ticket.subject = "Test_CloudTips_Test";
-                        array[0] = feedback?.PlaceExternalId ?? "";
-                        array[1] = "api";
-                        creatTiket.ticket.tags = array;
+                        creatTiket.ticket.tags = new string[2] {(feedback?.PlaceExternalId ?? ""),"api"};
                         creatTiket.ticket.custom_fields.rating = feedback?.Rating?.Score ?? 0;
                         creatTiket.ticket.custom_fields.NumberPlace = feedback?.PlaceExternalId ?? "";
-                        zendesk.PostRequest(url, creatTiket);
-                        LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
+                        new ApiRequestZendesk(token, email).PostRequest(url, creatTiket);
+                        //LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
                     }
                     else
                         break;
