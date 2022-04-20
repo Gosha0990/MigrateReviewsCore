@@ -51,7 +51,7 @@ namespace MigrateReviewsCore
                         creatTiket.ticket.custom_fields.rating = feedback?.Rating?.Score ?? 0;
                         creatTiket.ticket.custom_fields.NumberPlace = feedback?.PlaceExternalId ?? "";
                         new ApiRequestZendesk(token, email).PostRequest(url, creatTiket);
-                        //LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
+                        LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
                     }
                     else
                         break;
@@ -125,7 +125,6 @@ namespace MigrateReviewsCore
                 {
                     id = (context.feedbackCloudTips
                         .Select(x => x.Id)).ToList().Last();
-                    
                 }
                 return id;
             }
