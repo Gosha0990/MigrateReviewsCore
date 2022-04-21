@@ -15,7 +15,6 @@ namespace MigrateReviewsCore
             feedback.GetFeedbackCloudTips();
             var fe = feedback.Feedbacks;
             feedback.SetFeedBacksZendeskAndDb("vjW2dfbHWJWlDBtcNKp8GgaGCIL95WOvLdVDkmws", "a.yakovleva@coffeemania.ru", "https://coffeemania.zendesk.com/api/v2/tickets.json");
-
         }
     }
 }

@@ -50,8 +50,9 @@ namespace MigrateReviewsCore
                         creatTiket.ticket.tags = new string[2] {(feedback?.PlaceExternalId ?? ""),"api"};
                         creatTiket.ticket.custom_fields.rating = feedback?.Rating?.Score ?? 0;
                         creatTiket.ticket.custom_fields.NumberPlace = feedback?.PlaceExternalId ?? "";
+                        creatTiket.ticket.custom_fields.InvoceId = feedback?.InvoiceId ?? "";
                         new ApiRequestZendesk(token, email).PostRequest(url, creatTiket);
-                        LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
+                        //LogginInDB(feedback.Id, feedback.Date, feedback.Comment);
                     }
                     else
                         break;
