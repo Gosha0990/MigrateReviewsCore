@@ -29,7 +29,11 @@ namespace MigrateReviewsCore.DataApi
         //рейтинг
         [JsonProperty(PropertyName = "360017986557")]
         public int rating { get;set;}
+
         [JsonProperty(PropertyName = "360016140737")]
         public string? NumberPlace { get; set; }
+
+        [JsonProperty(PropertyName = "360016145197")]
+        public string InvoceId { get; set; }
     }
 }
